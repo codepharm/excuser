@@ -40,6 +40,7 @@ function App() {
 
       // set the excuse state variable
       setExcuse(data[0].excuse);
+      console.log(data)
     })
 
     // catch any errors
@@ -63,7 +64,12 @@ function App() {
 
       {/* display the excuse */}
       {excuse && <>
-        <h2>Here's a good {excuseType} excuse...</h2>
+        <h2>
+          Here's a good excuse for {
+            excuseType === 'party' ? ' a ' : excuseType === 'office' ? ' the ' : null
+          } 
+          {excuseType} ...
+        </h2>
         <p id='excuse'>{excuse}</p>
       </>}
 
