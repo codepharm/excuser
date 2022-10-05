@@ -19,9 +19,15 @@ function App() {
 
   // state variables
   const [excuse, setExcuse] = React.useState(null);
+  const [excuseType, setExcuseType] = React.useState('random');
 
   // a function that generates a random excuse
   const getExcuse = async (url) => {
+    
+    // make the url lower case
+    // set the excuse type
+    url = url.toLowerCase();
+    setExcuseType(url);
 
     // fetch the data from the API
     await fetch(`https://excuser.herokuapp.com/v1/excuse/${url}`)
@@ -40,6 +46,11 @@ function App() {
     .catch((err) => console.log(err));
   }
 
+  // useEffect hook gets a random excuse upon page load
+  React.useEffect(() => {
+    getExcuse(excuseList[Math.floor(Math.random() * excuseList.length)]);
+  },[])
+
   // return the JSX
   return (
     <div style={{textAlign: 'center'}}>
@@ -47,12 +58,12 @@ function App() {
 
       {/* map the excuse list to buttons */}
       {excuseList.map((excuse, index) => {
-        return <Button key={index} name={excuse} onClick={() => getExcuse(excuse.toLowerCase())} />
+        return <Button key={index} name={excuse} onClick={() => getExcuse(excuse)} />
       })}
 
       {/* display the excuse */}
       {excuse && <>
-        <h2>Here's a good excuse...</h2>
+        <h2>Here's a good {excuseType} excuse...</h2>
         <p id='excuse'>{excuse}</p>
       </>}
 
